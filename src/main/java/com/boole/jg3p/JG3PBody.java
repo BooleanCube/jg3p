@@ -10,8 +10,12 @@ import java.util.ArrayList;
  * and other bodies to take gravitational forces into account. <br>
  * Each {@link JG3PBody} object has a set of external forces attached to it in an {@link ArrayList<JG3PForce>}
  *
- * @see #updateVelocity(ArrayList, float)
- * @see #updatePosition(float)
+ * @author BooleanCube
+ * @version v1.0.0
+ *
+ * @see #JG3PBody()
+ * @see #JG3PBody(float, Vector3f)
+ * @see #JG3PBody(float, Vector3f, Vector3f)
  */
 public class JG3PBody {
 
@@ -43,6 +47,8 @@ public class JG3PBody {
      * @param position {@link Vector3f} representing the location of the center point of the {@link JG3PBody}'s mass.
      * @param initialVelocity {@link Vector3f} representing a 3D velocity vector to indicate the initial velocity of
      *                                        the body.
+     *
+     * @since v1.0.0
      */
     public JG3PBody(float mass, Vector3f position, Vector3f initialVelocity) {
         this.setMass(mass);
@@ -57,6 +63,8 @@ public class JG3PBody {
      *
      * @param mass Float value of the mass of the kinematic body.
      * @param position {@link Vector3f} representing the location of the center point of the {@link JG3PBody}'s mass.
+     *
+     * @since v1.0.0
      */
     public JG3PBody(float mass, Vector3f position) {
         this.setMass(mass);
@@ -69,6 +77,8 @@ public class JG3PBody {
      * Initialize a {@link JG3PBody} object at the origin with no mass or initial velocity. <br>
      * <i>There are no external forces by default.</i>
      * <b>Note:</b> Gravitational forces from other bodies will have no effect on this body because there is no mass.
+     *
+     * @since v1.0.0
      */
     public JG3PBody() {
         this.setMass(0f);
@@ -82,6 +92,10 @@ public class JG3PBody {
      * <b>Note:</b> To set the mass of the body, use {@link #setMass(float) setMass(float)}
      *
      * @return float value with the mass of the body (in kilograms).
+     *
+     * @see #setMass(float)
+     *
+     * @since v1.0.0
      */
     public float getMass() {
         return mass;
@@ -92,6 +106,10 @@ public class JG3PBody {
      * <b>Note:</b> To set the position of the body, use {@link #setPosition(Vector3f) setPosition(Vector3)}
      *
      * @return {@link Vector3f} representing the location of the point at the body's center of mass in 3D space.
+     *
+     * @see #setPosition(Vector3f)
+     *
+     * @since v1.0.0
      */
     public Vector3f getPosition() {
         return position;
@@ -102,6 +120,10 @@ public class JG3PBody {
      * <b>Note:</b> To set the current velocity of the body, use {@link #setCurrentVelocity(Vector3f) setCurrentVelocity(Vector3)}
      *
      * @return {@link Vector3f} representing the current velocity of the body as a {@link Vector3f}.
+     *
+     * @see #setCurrentVelocity(Vector3f)
+     *
+     * @since v1.0.0
      */
     public Vector3f getCurrentVelocity() {
         return currentVelocity;
@@ -111,7 +133,12 @@ public class JG3PBody {
      * List of the external {@link JG3PForce}s in a {@link JG3PBody} object. <br>
      * <b>Note:</b> To reset the external forces of the body, use {@link #setForces(ArrayList) setForces(new ArrayList<JG3PForce>())}
      *
-     * @return A list of external forces being exerted on the body in a {@link ArrayList<JG3PForce>}
+     * @return A list of external forces being exerted on the body in a {@link ArrayList<JG3PForce>}.
+     *
+     * @see #setForces(ArrayList)
+     * @see #addForce(JG3PForce)
+     *
+     * @since v1.0.0
      */
     public ArrayList<JG3PForce> getForces() {
         return forces;
@@ -122,6 +149,10 @@ public class JG3PBody {
      * <b>Note:</b> To retrieve the mass of the body, use {@link #getMass() getMass()}
      *
      * @param mass float value of the mass of the {@link JG3PBody}
+     *
+     * @see #getMass()
+     *
+     * @since v1.0.0
      */
     public void setMass(float mass) {
         this.mass = mass;
@@ -132,6 +163,10 @@ public class JG3PBody {
      * <b>Note:</b> To retrieve the location of the center of mass of the body, use {@link #getPosition() getPosition()}
      *
      * @param position The location of the center of mass of the {@link JG3PBody} graphed as a 3D vector.
+     *
+     * @see #getPosition()
+     *
+     * @since v1.0.0
      */
     public void setPosition(Vector3f position) {
         this.position = position;
@@ -142,6 +177,10 @@ public class JG3PBody {
      * <b>Note:</b> To retrieve the current velocity of the body, use {@link #getCurrentVelocity() getCurrentVelocity()}
      *
      * @param currentVelocity The current velocity of the {@link JG3PBody} object.
+     *
+     * @see #getCurrentVelocity()
+     *
+     * @since v1.0.0
      */
     public void setCurrentVelocity(Vector3f currentVelocity) {
         this.currentVelocity = currentVelocity;
@@ -153,7 +192,10 @@ public class JG3PBody {
      *
      * @param forces A list of external {@link JG3PForce}s enacted on the {@link JG3PBody}
      *
+     * @see #getForces()
      * @see #addForce(JG3PForce)
+     *
+     * @since v1.0.0
      */
     public void setForces(ArrayList<JG3PForce> forces) {
         this.forces = forces;
@@ -165,16 +207,28 @@ public class JG3PBody {
      * @param force A single external {@link JG3PForce} passed as a parameter to be added ot the list of external forces
      *              on this {@link JG3PBody}.
      *
+     * @see #getForces()
      * @see #setForces(ArrayList)
+     *
+     * @since v1.0.0
      */
     public void addForce(JG3PForce force) {
         this.forces.add(force);
     }
 
     /**
-     * Update the velocity of body
-     * @param bodies
-     * @param time
+     * Update the velocity of the {@link JG3PBody} object at every time frame. <br>
+     * Pass in a parameter of all {@link JG3PBody}s in the simulation so that the current body takes all gravitational
+     * forces into account. <br>
+     *
+     * @param bodies List of {@link JG3PBody}s in the simulation for the gravitational forces
+     * @param time Time frame float value
+     *
+     * @see #getCurrentVelocity()
+     * @see #setCurrentVelocity(Vector3f)
+     * @see #updatePosition(float)
+     *
+     * @since v1.0.0
      */
     public void updateVelocity(ArrayList<JG3PBody> bodies, float time) {
         Vector3f acceleration = new Vector3f(0f,0f,0f);
@@ -207,11 +261,38 @@ public class JG3PBody {
         this.currentVelocity.add(acceleration);
     }
 
+    /**
+     * Update the position of {@link JG3PBody} based on the updated current velocity which is calculated every frame
+     * before updating the position. <br>
+     * <b>Note:</b> This doesn't move any objects in your simulation or application. It only changes the position
+     * vector of the {@link JG3PBody} so further calculations can be made every frame.
+     *
+     * @param time Time frame float value
+     *
+     * @see #getPosition()
+     * @see #setPosition(Vector3f)
+     * @see #updateVelocity(ArrayList, float)
+     *
+     * @since v1.0.0
+     */
     public void updatePosition(float time) {
         Vector3f velocity = new Vector3f(currentVelocity.x*time, currentVelocity.y*time, currentVelocity.z*time);
         this.getPosition().add(velocity);
     }
 
+    /**
+     * Calculates the Euclidean Distance between 2 {@link JG3PBody}s. <br>
+     * Euclidean distance includes diagonal vectors unlike Manhattan Distance. <br>
+     * <a href="https://s3-us-west-2.amazonaws.com/ist-app-support-files/000002228/00N39000003LL2C-0EM39000000wcQu.png">Euclidean Distance Example</a> <br>
+     *
+     * @param body Second {@link JG3PBody} to compare position to find euclidean distance.
+     *
+     * @return Euclidean Distance float value
+     *
+     * @see #calculateManhattanDistance(JG3PBody)
+     *
+     * @since v1.0.0
+     */
     public float calculateEuclideanDistance(JG3PBody body) {
         return (float)Math.sqrt(
                 Math.pow(body.getPosition().x-this.getPosition().x, 2) +
@@ -220,10 +301,23 @@ public class JG3PBody {
         );
     }
 
-    public float calculateManhattanDistance(JG3PBody object) {
-        return Math.abs(this.getPosition().x-object.getPosition().x) +
-                Math.abs(this.getPosition().y-object.getPosition().y) +
-                Math.abs(this.getPosition().z-object.getPosition().z);
+    /**
+     * Calculates the Manhattan Distance between 2 {@link JG3PBody}s. <br>
+     * Manhattan distance does not include diagonal vectors unlike Euclidean Distance. <br>
+     * <a href="https://www.101computing.net/wp/wp-content/uploads/taxicab-manhattan-grid-taxicab-distance.png">Manhattan Distance Example</a> <br>
+     *
+     * @param body Second {@link JG3PBody} to compare position to find manhattan distance.
+     *
+     * @return Manhattan Distance float value
+     *
+     * @see #calculateEuclideanDistance(JG3PBody)
+     *
+     * @since v1.0.0
+     */
+    public float calculateManhattanDistance(JG3PBody body) {
+        return Math.abs(this.getPosition().x-body.getPosition().x) +
+                Math.abs(this.getPosition().y-body.getPosition().y) +
+                Math.abs(this.getPosition().z-body.getPosition().z);
     }
 
 }
