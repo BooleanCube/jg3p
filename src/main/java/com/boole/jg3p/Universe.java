@@ -21,7 +21,7 @@ public class Universe {
      *
      * @since v1.0.0
      */
-    public static float gravityConstant = 0.0000000000667259f;
+    public static float gravityConstant = 0.667259f;
 
     /**
      * Float value representing the time between each step to update velocity and position of each celestial body.
